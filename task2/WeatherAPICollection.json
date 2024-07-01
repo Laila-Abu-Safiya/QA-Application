@@ -1,0 +1,229 @@
+{
+    "info": {
+      "name": "WeatherAPI Collection",
+      "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "description": "Collection to test WeatherAPI endpoints",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Retrieve current weather for valid city (London)",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://api.weatherapi.com/v1/current.json?q=London&key={{9ee886e34f6049ddb83160751240107}}",
+            "protocol": "http",
+            "host": [
+              "api",
+              "weatherapi",
+              "com"
+            ],
+            "path": [
+              "v1",
+              "current.json"
+            ],
+            "query": [
+              {
+                "key": "q",
+                "value": "London"
+              },
+              {
+                "key": "key",
+                "value": "{{9ee886e34f6049ddb83160751240107}}"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Status code is 200\", function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "",
+                "pm.test(\"Response has location and current weather data\", function () {",
+                "    var jsonData = pm.response.json();",
+                "    pm.expect(jsonData).to.have.property(\"location\");",
+                "    pm.expect(jsonData).to.have.property(\"current\");",
+                "    pm.expect(jsonData.location).to.have.property(\"name\", \"London\");",
+                "    pm.expect(jsonData.current).to.have.property(\"temp_c\");",
+                "    pm.expect(jsonData.current).to.have.property(\"temp_f\");",
+                "    pm.expect(jsonData.current).to.have.property(\"humidity\");",
+                "    pm.expect(jsonData.current).to.have.property(\"wind_mph\");",
+                "    pm.expect(jsonData.current).to.have.property(\"wind_kph\");",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Retrieve current weather for invalid city",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://api.weatherapi.com/v1/current.json?q=InvalidCityName&key={{9ee886e34f6049ddb83160751240107}}",
+            "protocol": "http",
+            "host": [
+              "api",
+              "weatherapi",
+              "com"
+            ],
+            "path": [
+              "v1",
+              "current.json"
+            ],
+            "query": [
+              {
+                "key": "q",
+                "value": "InvalidCityName"
+              },
+              {
+                "key": "key",
+                "value": "{{9ee886e34f6049ddb83160751240107}}"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Status code is 400 or 404\", function () {",
+                "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+                "});",
+                "",
+                "pm.test(\"Response contains error message\", function () {",
+                "    var jsonData = pm.response.json();",
+                "    pm.expect(jsonData).to.have.property(\"error\");",
+                "    pm.expect(jsonData.error).to.have.property(\"message\");",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Retrieve current weather with empty city name",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://api.weatherapi.com/v1/current.json?q=&key={{9ee886e34f6049ddb83160751240107}}",
+            "protocol": "http",
+            "host": [
+              "api",
+              "weatherapi",
+              "com"
+            ],
+            "path": [
+              "v1",
+              "current.json"
+            ],
+            "query": [
+              {
+                "key": "q",
+                "value": ""
+              },
+              {
+                "key": "key",
+                "value": "{{9ee886e34f6049ddb83160751240107}}"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Status code is 400\", function () {",
+                "    pm.response.to.have.status(400);",
+                "});",
+                "",
+                "pm.test(\"Response contains error message\", function () {",
+                "    var jsonData = pm.response.json();",
+                "    pm.expect(jsonData).to.have.property(\"error\");",
+                "    pm.expect(jsonData.error).to.have.property(\"message\");",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Retrieve current weather for city with multiple locations (Springfield)",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://api.weatherapi.com/v1/current.json?q=Springfield&key={{9ee886e34f6049ddb83160751240107}}",
+            "protocol": "http",
+            "host": [
+              "api",
+              "weatherapi",
+              "com"
+            ],
+            "path": [
+              "v1",
+              "current.json"
+            ],
+            "query": [
+              {
+                "key": "q",
+                "value": "Springfield"
+              },
+              {
+                "key": "key",
+                "value": "{{9ee886e34f6049ddb83160751240107}}"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Status code is 200\", function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "",
+                "pm.test(\"Response has location and current weather data\", function () {",
+                "    var jsonData = pm.response.json();",
+                "    pm.expect(jsonData).to.have.property(\"location\");",
+                "    pm.expect(jsonData).to.have.property(\"current\");",
+                "    pm.expect(jsonData.location).to.have.property(\"name\", \"Springfield\");",
+                "    pm.expect(jsonData.current).to.have.property(\"temp_c\");",
+                "    pm.expect(jsonData.current).to.have.property(\"temp_f\");",
+                "    pm.expect(jsonData.current).to.have.property(\"humidity\");",
+                "    pm.expect(jsonData.current).to.have.property(\"wind_mph\");",
+                "    pm.expect(jsonData.current).to.have.property(\"wind_kph\");",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "9ee886e34f6049ddb83160751240107",
+        "value": ""
+      }
+    ]
+  }
+  
